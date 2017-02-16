@@ -26,7 +26,7 @@ class ProMan(object):
         'db': {},
         'current': {
             'status': 'idle',
-            'plan': ''
+            'activity': ''
         }
 
     }
@@ -171,7 +171,9 @@ class ProMan(object):
                 self.currentMode = 'do'
 
         elif self.currentMode == 'do':  # 执行模式
-            if cmd[0] == 'start':  # 启动
+            if cmd[0] == 'choose':  # 选择计划
+                self.chooseTDTD()
+            elif cmd[0] == 'start':  # 启动
                 pass
             elif cmd[0] == 'pause':  # 中断
                 pass
@@ -205,10 +207,13 @@ class ProMan(object):
             elif select == i + 1:
                 return each
 
-    def showTDTD(self):
+    def showTDTD(self, select=0):
         for i, each in enumerate(self.data['tdtd']):
-            text = '[{}]: {}'
-            print(text.format(i + 1, self.data['db'][each]['name']))
+            if select == 0:
+                text = '[{}]: {}'
+                print(text.format(i + 1, self.data['db'][each]['name']))
+            elif select == i + 1:
+                return each
 
     def showR(self):
         for i, each in enumerate(self.data['r']):
@@ -266,6 +271,13 @@ class ProMan(object):
             identity = self.showAL(int(select))
             if not identity in self.data['tdtd']:
                 self.data['tdtd'].append(identity)
+
+    def chooseTDTD(self):
+        self.showTDTD()
+        select = input('请输入编号选择现在要完成的活动：')
+        if select.isdigit():
+            identity = self.showTDTD(int(select))
+            self.data['current']['activity'] = identity
 
     # 私有
     def generate_hash(self):
