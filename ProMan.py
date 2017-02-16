@@ -155,6 +155,8 @@ class ProMan(object):
                 self.showTDTD()
             elif cmd[1] == 'r':  # 记录(Record)
                 self.showR()
+            elif cmd[1] == 'raw':  # 调试
+                print(self.data)
 
         elif cmd[0] == 'set':  # 设置
             self.setCFG(cmd)
