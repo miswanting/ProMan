@@ -117,8 +117,6 @@ class ProMan(object):
             # TODO: help done
         elif cmd[1] == 'fail':
             print('fail')
-        elif cmd[1] == 'fin':
-            print('fin')
             # TODO: help fail
         elif cmd[1] == 'finish':
             print('finish')
@@ -138,10 +136,13 @@ class ProMan(object):
                 self.showTDTD()
             elif cmd[1] == 'r':  # 记录(Record)
                 self.showR()
+
         elif cmd[0] == 'set':  # 设置
-            self.setCFG(cmd[1], cmd[2:])
+            self.setCFG(cmd)
+
         elif cmd[0] == 'plan':  # 进入计划模式
             self.currentMode = 'plan'
+
         elif self.currentMode == 'plan':  # 计划模式
             if cmd[0] == 'do':  # 进入执行模式
                 self.currentMode = 'do'
@@ -149,6 +150,7 @@ class ProMan(object):
                 self.newA(cmd[2:])
             elif cmd[0] == 'add':  # 添加到今日待办
                 self.add2TDTD(cmd[2:])
+
         elif self.currentMode == 'do':  # 执行模式
             if cmd[0] == 'start':  # 启动
                 pass
@@ -163,12 +165,15 @@ class ProMan(object):
             elif cmd[0] == 'check':  # 进入评估模式
                 self.currentMode = 'check'
                 pass
+
         elif self.currentMode == 'check':  # 评估模式
             if cmd[0] == 'act':  # 进入应用模式
                 self.currentMode = 'act'
                 pass
+
         elif self.currentMode == 'act':  # 应用模式
             pass
+
         else:
             pass
 
@@ -188,12 +193,12 @@ class ProMan(object):
             text = '[{}]: {}'
             print(text.format(i + 1, self.data['r'][each]['name']))
 
-    def setCFG(self, key, value):
-        if key in self.data['cfg'].keys():
-            if value[0].isdigit():
-                self.data['cfg'][key] = int(value[0])
+    def setCFG(self, cmd):
+        if cmd[1] in self.data['cfg'].keys():
+            if cmd[2].isdigit():
+                self.data['cfg'][key] = int(cmd[2])
             else:
-                self.data['cfg'][key] = value[0]
+                self.data['cfg'][key] = cmd[2]
 
     def newA(self, *arg):
         newItem = {}
