@@ -23,7 +23,7 @@ class ProMan(object):
         'al': [],  # 活动清单(Activity List)
         'tdtd': [],  # 今日待办(Todo Today)
         'r': [],  # 记录(Record)
-        'db':{},
+        'db': {},
         'current': {
             'status': 'idle',
             'plan': ''
@@ -197,20 +197,23 @@ class ProMan(object):
             pass
 
     # 公共
-    def showAL(self):
+    def showAL(self, select=0):
         for i, each in enumerate(self.data['al']):
+            if select == 0:
+                text = '[{}]: {}'
+                print(text.format(i + 1, self.data['db'][each]['name']))
+            elif select == i + 1:
+                return each
+
+    def showTDTD(self):
+        for i, each in enumerate(self.data['tdtd']):
             text = '[{}]: {}'
             print(text.format(i + 1, self.data['db'][each]['name']))
 
-    def showTDTD(self):
-        for i, each in enumerate(self.data['tdtd'].keys()):
-            text = '[{}]: {}'
-            print(text.format(i + 1, self.data['tdtd'][each]['name']))
-
     def showR(self):
-        for i, each in enumerate(self.data['r'].keys()):
+        for i, each in enumerate(self.data['r']):
             text = '[{}]: {}'
-            print(text.format(i + 1, self.data['r'][each]['name']))
+            print(text.format(i + 1, self.data['db'][each]['name']))
 
     def setCFG(self, cmd):
         if cmd[1] in self.data['cfg'].keys():
@@ -252,12 +255,17 @@ class ProMan(object):
         cmd = input('请输入预判的番茄数:')
         if cmd.isdigit():
             newItem['pot'] = int(cmd)
-        identity=self.generate_hash()
+        identity = self.generate_hash()
         self.data['db'][identity] = newItem
         self.data['al'].append(identity)
 
     def add2TDTD(self, *arg):
-        pass
+        self.showAL()
+        select = input('请输入编号把活动项目加入今日待办：')
+        if select.isdigit():
+            identity = self.showAL(int(select))
+            if not identity in self.data['tdtd']:
+                self.data['tdtd'].append(identity)
 
     # 私有
     def generate_hash(self):
