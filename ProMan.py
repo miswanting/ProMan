@@ -98,17 +98,17 @@ class ProMan(object):
     def showAL(self):
         for i, each in enumerate(self.data['al'].keys()):
             text = '[{}]: {}'
-            print(text.format(i + 1, self.data['al'][each]['title']))
+            print(text.format(i + 1, self.data['al'][each]['name']))
 
     def showTDTD(self):
         for i, each in enumerate(self.data['tdtd'].keys()):
             text = '[{}]: {}'
-            print(text.format(i + 1, self.data['tdtd'][each]['title']))
+            print(text.format(i + 1, self.data['tdtd'][each]['name']))
 
     def showR(self):
         for i, each in enumerate(self.data['r'].keys()):
             text = '[{}]: {}'
-            print(text.format(i + 1, self.data['r'][each]['title']))
+            print(text.format(i + 1, self.data['r'][each]['name']))
 
     def setCFG(self, key, value):
         if key in self.data['cfg'].keys():
