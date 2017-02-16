@@ -67,6 +67,8 @@ class ProMan(object):
             if cmd[0] == 'do':  # 进入执行模式
                 self.currentMode = 'do'
                 pass
+            elif cmd[0] == 'new':  # 新增活动清单项目
+                self.newA(cmd[2:])
         elif self.currentMode == 'do':  # 执行模式
             if cmd[0] == 'start':  # 启动
                 pass
@@ -112,6 +114,31 @@ class ProMan(object):
                 self.data['cfg'][key] = int(value[0])
             else:
                 self.data['cfg'][key] = value[0]
+
+    def newA(self, *arg):
+        newItem = {}
+        newItem['name'] = arg[0]
+        newItem['des'] = arg[1]
+        cmd = input('是否有时效性？[Y/n]:')
+        if not cmd == 'n':
+            print('=是')
+            newItem['timeRequire'] = True
+            print('[1]:之前')
+            print('[2]:之间')
+            print('[3]:某时')
+            cmd = input('是哪一种时间要求？:')
+            if cmd == '1':
+                pass
+            elif cmd == '2':
+                pass
+            elif cmd == '3':
+                pass
+        else:
+            print('=否')
+            newItem['timeRequire'] = False
+        cmd = input('请输入预判的番茄数:')
+        if cmd.isdigit():
+            newItem['pot']=int(cmd)
 
     # 私有
     def generate_hash(self):
