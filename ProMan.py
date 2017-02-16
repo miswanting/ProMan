@@ -198,9 +198,9 @@ class ProMan(object):
 
     # 公共
     def showAL(self):
-        for i, each in enumerate(self.data['al'].keys()):
+        for i, each in enumerate(self.data['al']):
             text = '[{}]: {}'
-            print(text.format(i + 1, self.data['al'][each]['name']))
+            print(text.format(i + 1, self.data['db'][each]['name']))
 
     def showTDTD(self):
         for i, each in enumerate(self.data['tdtd'].keys()):
