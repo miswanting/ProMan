@@ -280,5 +280,16 @@ class ProMan(object):
                 self.data['date'].day
             )
 
+    def dt2l(self, v_dt):  # datetime to list
+        v_l = []
+        v_l.append(v_dt.year, v_dt.month, v_dt.day)
+        v_l.append(v_dt.hour, v_dt.minute, v_dt.second)
+        return v_l
+
+    def l2dt(self, v_l):  # list to datetime
+        v_dt = dt.datetime(v_l.year, v_l.month, v_l.day,
+                           v_l.hour, v_l.minute, v_l.second)
+        return v_dt
+
 if __name__ == '__main__':
     ProMan()
