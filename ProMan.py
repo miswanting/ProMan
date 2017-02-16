@@ -69,6 +69,8 @@ class ProMan(object):
                 pass
             elif cmd[0] == 'new':  # 新增活动清单项目
                 self.newA(cmd[2:])
+            elif cmd[0] == 'add':  # 添加到今日待办
+                self.add2TDTD(cmd[2:])
         elif self.currentMode == 'do':  # 执行模式
             if cmd[0] == 'start':  # 启动
                 pass
@@ -139,6 +141,9 @@ class ProMan(object):
         cmd = input('请输入预判的番茄数:')
         if cmd.isdigit():
             newItem['pot']=int(cmd)
+
+    def add2TDTD(self, *arg):
+        pass
 
     # 私有
     def generate_hash(self):
