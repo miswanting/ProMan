@@ -3,7 +3,7 @@ import os
 import time
 import random
 import hashlib
-import datetime
+import datetime as dt
 import threading
 
 
@@ -20,9 +20,15 @@ class ProMan(object):
             'MetaTime': 25,  # 番茄时间（分钟）
             'PlanTime': 5  # 计划时间（分钟）
         },
-        'al': {},  # 活动清单(Activity List)
-        'tdtd': {},  # 今日待办(Todo Today)
-        'r': {}  # 记录(Record)
+        'al': [],  # 活动清单(Activity List)
+        'tdtd': [],  # 今日待办(Todo Today)
+        'r': [],  # 记录(Record)
+        'db':{},
+        'current': {
+            'status': 'idle',
+            'plan': ''
+        }
+
     }
 
     def __init__(self, debug=False):
@@ -33,8 +39,11 @@ class ProMan(object):
             os.mkdir('data')
         elif os.path.exists('data/db'):
             self.load()
-        self.today = datetime.date.today()
+        self.today = dt.date.today()
         self.startInputStar()
+        self.startTimerStar()
+        self.t_inputStar.join()
+        self.t_timerStar.join()
 
     def startInputStar(self):
         def inputStar():
@@ -53,8 +62,18 @@ class ProMan(object):
                         self.help(cmd)
                     else:
                         self.doCMD(cmd)
-        t_inputStar = threading.Thread(target=inputStar)
-        t_inputStar.start()
+        self.t_inputStar = threading.Thread(target=inputStar)
+        self.t_inputStar.start()
+
+    def startTimerStar(self):
+        def timerStar():
+            while self.isRunning['ProMan']:
+                time.sleep(1)
+                now = dt.datetime.now()
+                if self.data['current']['status'] == 'idle':
+                    pass
+        self.t_timerStar = threading.Thread(target=timerStar)
+        self.t_timerStar.start()
 
     def help(self, cmd):
         if len(cmd) == 1:
