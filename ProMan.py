@@ -90,30 +90,45 @@ class ProMan(object):
             ''')
         elif cmd[1] == 'show':
             print('show')
+            # TODO: help show
         elif cmd[1] == 'set':
             print('set')
+            # TODO: help set
         elif cmd[1] == 'plan':
             print('plan')
+            # TODO: help plan
         elif cmd[1] == 'do':
             print('do')
+            # TODO: help do
         elif cmd[1] == 'new':
             print('new')
+            # TODO: help new
         elif cmd[1] == 'add':
             print('add')
+            # TODO: help add
         elif cmd[1] == 'start':
             print('start')
+            # TODO: help start
         elif cmd[1] == 'pause':
             print('pause')
+            # TODO: help pause
         elif cmd[1] == 'done':
             print('done')
+            # TODO: help done
         elif cmd[1] == 'fail':
             print('fail')
         elif cmd[1] == 'fin':
             print('fin')
+            # TODO: help fail
+        elif cmd[1] == 'finish':
+            print('finish')
+            # TODO: help finish
         elif cmd[1] == 'check':
             print('check')
+            # TODO: help check
         elif cmd[1] == 'act':
             print('act')
+            # TODO: help act
 
     def doCMD(self, cmd):
         if cmd[0] == 'show':  # 显示
