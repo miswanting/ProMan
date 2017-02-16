@@ -33,6 +33,7 @@ class ProMan(object):
             os.mkdir('data')
         elif os.path.exists('data/db'):
             self.load()
+        self.today = datetime.date.today()
         self.startInputStar()
 
     def startInputStar(self):
@@ -66,7 +67,6 @@ class ProMan(object):
         elif self.currentMode == 'plan':  # 计划模式
             if cmd[0] == 'do':  # 进入执行模式
                 self.currentMode = 'do'
-                pass
             elif cmd[0] == 'new':  # 新增活动清单项目
                 self.newA(cmd[2:])
             elif cmd[0] == 'add':  # 添加到今日待办
@@ -155,10 +155,16 @@ class ProMan(object):
     def load(self):
         with open(self.path, 'r') as dbfile:
             self.data = json.loads(dbfile.read())
+            self.data['date'] = datetime.date(*self.data['date'])
 
     def save(self):
         with open(self.path, 'w') as dbfile:
             dbfile.write(json.dumps(self.data))
+            self.data['date'] = (
+                self.data['date'].year,
+                self.data['date'].month,
+                self.data['date'].day
+            )
 
 if __name__ == '__main__':
     ProMan()
