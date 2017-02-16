@@ -38,18 +38,82 @@ class ProMan(object):
 
     def startInputStar(self):
         def inputStar():
+            os.system('title ProMan')
+            print('Welcome to ProMan!')
+            print('You can type "help" to get help.')
             while self.isRunning['ProMan']:
                 cmd = input('>')
                 if cmd == '':
                     continue
                 else:
                     cmd = cmd.split(' ')
-                    if cmd == 'exit' or cmd == 'quit':
+                    if cmd[0] == 'exit' or cmd[0] == 'quit':
                         self.isRunning['ProMan'] = False
+                    elif cmd[0] == 'help':
+                        self.help(cmd)
                     else:
                         self.doCMD(cmd)
         t_inputStar = threading.Thread(target=inputStar)
         t_inputStar.start()
+
+    def help(self, cmd):
+        if len(cmd) == 1:
+            print('''
+帮助
+
+有关某个命令的详细信息，请键入 “help 命令名”
+
+通用：
+    help：显示本帮助
+    show：显示各种数据
+    set：设置软件参数
+
+流程：
+    本程序具有四个标准流程，其顺序为：
+        plan → do → check → act
+
+        plan：进入计划模式
+    plan：计划模式
+        new：新增活动清单项目
+        add：添加到今日待办
+        do：进入执行模式
+    do：执行模式
+        start：启动
+        pause：中断
+        done：提前结束（成功）
+        fail：提前结束（失败）
+        finish：手动结束今天的执行模式
+        check：进入评估模式
+    check：评估模式
+        act：进入应用模式
+    act：应用模式
+            ''')
+        elif cmd[1] == 'show':
+            print('show')
+        elif cmd[1] == 'set':
+            print('set')
+        elif cmd[1] == 'plan':
+            print('plan')
+        elif cmd[1] == 'do':
+            print('do')
+        elif cmd[1] == 'new':
+            print('new')
+        elif cmd[1] == 'add':
+            print('add')
+        elif cmd[1] == 'start':
+            print('start')
+        elif cmd[1] == 'pause':
+            print('pause')
+        elif cmd[1] == 'done':
+            print('done')
+        elif cmd[1] == 'fail':
+            print('fail')
+        elif cmd[1] == 'fin':
+            print('fin')
+        elif cmd[1] == 'check':
+            print('check')
+        elif cmd[1] == 'act':
+            print('act')
 
     def doCMD(self, cmd):
         if cmd[0] == 'show':  # 显示
@@ -63,7 +127,6 @@ class ProMan(object):
             self.setCFG(cmd[1], cmd[2:])
         elif cmd[0] == 'plan':  # 进入计划模式
             self.currentMode = 'plan'
-            pass
         elif self.currentMode == 'plan':  # 计划模式
             if cmd[0] == 'do':  # 进入执行模式
                 self.currentMode = 'do'
@@ -80,7 +143,7 @@ class ProMan(object):
                 pass
             elif cmd[0] == 'fail':  # 提前结束（失败）
                 pass
-            elif cmd[0] == 'fin':  # 手动结束今天
+            elif cmd[0] == 'finish':  # 手动结束今天
                 pass
             elif cmd[0] == 'check':  # 进入评估模式
                 self.currentMode = 'check'
@@ -140,7 +203,7 @@ class ProMan(object):
             newItem['timeRequire'] = False
         cmd = input('请输入预判的番茄数:')
         if cmd.isdigit():
-            newItem['pot']=int(cmd)
+            newItem['pot'] = int(cmd)
 
     def add2TDTD(self, *arg):
         pass
