@@ -163,12 +163,12 @@ class ProMan(object):
             self.currentMode = 'plan'
 
         elif self.currentMode == 'plan':  # 计划模式
-            if cmd[0] == 'do':  # 进入执行模式
-                self.currentMode = 'do'
-            elif cmd[0] == 'new':  # 新增活动清单项目
-                self.newA(cmd[2:])
+            if cmd[0] == 'new':  # 新增活动清单项目
+                self.newA(cmd)
             elif cmd[0] == 'add':  # 添加到今日待办
                 self.add2TDTD(cmd[2:])
+            elif cmd[0] == 'do':  # 进入执行模式
+                self.currentMode = 'do'
 
         elif self.currentMode == 'do':  # 执行模式
             if cmd[0] == 'start':  # 启动
@@ -219,10 +219,19 @@ class ProMan(object):
             else:
                 self.data['cfg'][key] = cmd[2]
 
-    def newA(self, *arg):
-        newItem = {}
-        newItem['name'] = arg[0]
-        newItem['des'] = arg[1]
+    def newA(self, cmd):
+        newItem = {
+            'name': '',
+            'des': '',
+            'timeRequire': None,
+            'timeMode': '',
+            'pot': 0,
+            'his': []
+        }
+        newItem['name'] = cmd[1]
+        newItem['des'] = ''
+        if len(cmd) == 3:
+            newItem['des'] = cmd[2]
         cmd = input('是否有时效性？[Y/n]:')
         if not cmd == 'n':
             print('=是')
@@ -232,17 +241,20 @@ class ProMan(object):
             print('[3]:某时')
             cmd = input('是哪一种时间要求？:')
             if cmd == '1':
-                pass
+                newItem['timeMode'] = 'before'
             elif cmd == '2':
-                pass
+                newItem['timeMode'] = 'during'
             elif cmd == '3':
-                pass
+                newItem['timeMode'] = 'at'
         else:
             print('=否')
             newItem['timeRequire'] = False
         cmd = input('请输入预判的番茄数:')
         if cmd.isdigit():
             newItem['pot'] = int(cmd)
+        identity=self.generate_hash()
+        self.data['db'][identity] = newItem
+        self.data['al'].append(identity)
 
     def add2TDTD(self, *arg):
         pass
@@ -257,7 +269,7 @@ class ProMan(object):
     def load(self):
         with open(self.path, 'r') as dbfile:
             self.data = json.loads(dbfile.read())
-            self.data['date'] = datetime.date(*self.data['date'])
+            self.data['date'] = dt.date(*self.data['date'])
 
     def save(self):
         with open(self.path, 'w') as dbfile:
