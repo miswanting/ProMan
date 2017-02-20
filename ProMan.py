@@ -111,12 +111,11 @@ class ProMan(object):
                     metaTime = self.data['cfg']['MetaTime']
                 elif self.data['current']['status'] == 'started':
                     self.data['current']['count_down'] -= 1
-                    self.set_title(self.data['current']['count_down'])
                     if self.data['current']['count_down'] == 0:
                         self.data['current']['status'] = 'finish'
-                        self.set_title()
                 elif self.data['current']['status'] == 'finish':
                     self.data['current']['status'] = 'idle'
+                self.generate_title()
         self.t_timerStar = threading.Thread(target=timerStar)
         self.t_timerStar.start()
 
@@ -350,6 +349,14 @@ class ProMan(object):
             os.system('title ProMan')
         else:
             os.system('title ProMan - {}'.format(title))
+
+    def generate_title(self):
+        title = 'title ProMan'
+        if 'currentMode' in dir(self):
+            title += ' - ' + self.data['current']['status']
+        if self.data['current']['status'] == 'started':
+            title += ' - ' + str(self.data['current']['count_down'])
+        os.system(title)
 
 if __name__ == '__main__':
     ProMan()
