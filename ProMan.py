@@ -344,5 +344,11 @@ class ProMan(object):
                            v_l.hour, v_l.minute, v_l.second)
         return v_dt
 
+    def set_title(self, title=''):
+        if title = '':
+            os.system('ProMan')
+        else:
+            os.system('ProMan | {}'.format(title))
+
 if __name__ == '__main__':
     ProMan()
