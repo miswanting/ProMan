@@ -248,9 +248,14 @@ class ProMan(object):
             'pot': 0,
             'his': []
         }
-        newItem['name'] = cmd[1]
-        newItem['des'] = ''
-        if len(cmd) == 3:
+        if len(cmd) == 1:
+            newItem['name'] = input('请输入活动名称：')
+            newItem['des'] = input('请输入活动描述：')
+        elif len(cmd) == 2:
+            newItem['name'] = cmd[1]
+            newItem['des'] = input('请输入活动描述：')
+        else:
+            newItem['name'] = cmd[1]
             newItem['des'] = cmd[2]
         cmd = input('是否有时效性？[Y/n]:')
         if not cmd == 'n':
