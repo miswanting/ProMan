@@ -116,6 +116,7 @@ class ProMan(object):
                 elif self.data['current']['status'] == 'finish':
                     self.data['current']['status'] = 'idle'
                 self.generate_title()
+                self.save()
         self.t_timerStar = threading.Thread(target=timerStar)
         self.t_timerStar.start()
 
