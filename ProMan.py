@@ -113,6 +113,9 @@ class ProMan(object):
                     print(self.data['current']['count_down'])
                     if self.data['current']['count_down'] == 0:
                         print('!')
+                        self.data['current']['status'] = 'finish'
+                elif self.data['current']['status'] == 'finish':
+                    self.data['current']['status'] = 'idle'
         self.t_timerStar = threading.Thread(target=timerStar)
         self.t_timerStar.start()
 
