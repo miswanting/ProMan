@@ -29,7 +29,6 @@ class ProMan(object):
             'activity': '',  # 当前活动
             'count_down': 0  # 当前倒计时
         }
-
     }
 
     def __init__(self, debug=False):
@@ -70,7 +69,7 @@ class ProMan(object):
         def timerStar():
             while self.isRunning['ProMan']:
                 time.sleep(1)
-                now = dt.datetime.now()
+                self.now = dt.datetime.now()
                 if self.data['current']['status'] == 'idle':
                     pass
         self.t_timerStar = threading.Thread(target=timerStar)
@@ -185,7 +184,7 @@ class ProMan(object):
             elif cmd[0] == 'fail':  # 提前结束（失败）
                 pass
             elif cmd[0] == 'finish':  # 手动结束今天
-                pass
+                self.startA()
             elif cmd[0] == 'check':  # 进入评估模式
                 self.currentMode = 'check'
                 pass
@@ -281,6 +280,18 @@ class ProMan(object):
         if select.isdigit():
             identity = self.showTDTD(int(select))
             self.data['current']['activity'] = identity
+
+    def startA(self):
+        if self.data['current']['status'] == 'idle':
+            self.data['current']['status'] = 'start'
+            history = {
+                'time': self.dt2l(self.now),
+                'data': 'start'
+            }
+            self.data['db'][self.data['current'][
+                'activity']]['his'].append(history)
+            self.data['current']['count_down'] = self.data[
+                'cfg']['MetaTime'] * 60
 
     # 私有
     def generate_hash(self):
