@@ -72,6 +72,16 @@ class ProMan(object):
                 self.now = dt.datetime.now()
                 if self.data['current']['status'] == 'idle':
                     pass
+                elif self.data['current']['status'] == 'start':
+                    self.data['current']['status'] = 'started'
+                    pot = self.data['db'][
+                        self.data['current']['activity']]['pot']
+                    metaTime = self.data['cfg']['MetaTime']
+                elif self.data['current']['status'] == 'started':
+                    self.data['current']['count_down'] -= 1
+                    print(self.data['current']['count_down'])
+                    if self.data['current']['count_down'] == 0:
+                        print('!')
         self.t_timerStar = threading.Thread(target=timerStar)
         self.t_timerStar.start()
 
@@ -176,7 +186,7 @@ class ProMan(object):
             if cmd[0] == 'choose':  # 选择计划
                 self.chooseTDTD()
             elif cmd[0] == 'start':  # 启动
-                pass
+                self.startA()
             elif cmd[0] == 'pause':  # 中断
                 pass
             elif cmd[0] == 'done':  # 提前结束（成功）
@@ -184,7 +194,7 @@ class ProMan(object):
             elif cmd[0] == 'fail':  # 提前结束（失败）
                 pass
             elif cmd[0] == 'finish':  # 手动结束今天
-                self.startA()
+                pass
             elif cmd[0] == 'check':  # 进入评估模式
                 self.currentMode = 'check'
                 pass
