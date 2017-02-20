@@ -46,7 +46,7 @@ class ProMan(object):
     path = 'data/db.json'
     currentMode = ''
     data = {
-        'date': None,  # 日期
+        'now': None,  # 日期
         'user': '',  # 姓名
         'cfg': {
             'MetaTime': 25,  # 番茄时间（分钟）
@@ -101,7 +101,7 @@ class ProMan(object):
         def timerStar():
             while self.isRunning['ProMan']:
                 time.sleep(1)
-                self.now = dt.datetime.now()
+                self.data['now'] = dt.datetime.now()
                 if self.data['current']['status'] == 'idle':
                     pass
                 elif self.data['current']['status'] == 'start':
@@ -306,7 +306,7 @@ class ProMan(object):
         if self.data['current']['status'] == 'idle':
             self.data['current']['status'] = 'start'
             history = {
-                'time': self.dt2l(self.now),
+                'time': self.dt2l(self.data['now']),
                 'data': 'start'
             }
             self.data['db'][self.data['current'][
