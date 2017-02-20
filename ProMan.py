@@ -23,10 +23,11 @@ class ProMan(object):
         'al': [],  # 活动清单(Activity List)
         'tdtd': [],  # 今日待办(Todo Today)
         'r': [],  # 记录(Record)
-        'db': {},
+        'db': {},  # 存放所有索引与内容的数据库
         'current': {
-            'status': 'idle',
-            'activity': ''
+            'status': 'idle',  # 时钟状态
+            'activity': '',  # 当前活动
+            'count_down': 0  # 当前倒计时
         }
 
     }
