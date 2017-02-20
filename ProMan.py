@@ -325,9 +325,8 @@ class ProMan(object):
             )
 
     def dt2l(self, v_dt):  # datetime to list
-        v_l = []
-        v_l.append(v_dt.year, v_dt.month, v_dt.day)
-        v_l.append(v_dt.hour, v_dt.minute, v_dt.second)
+        v_l = [v_dt.year, v_dt.month, v_dt.day,
+               v_dt.hour, v_dt.minute, v_dt.second]
         return v_l
 
     def l2dt(self, v_l):  # list to datetime
