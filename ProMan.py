@@ -1,5 +1,6 @@
 # coding=utf-8
 import os
+import json
 import time
 import random
 import hashlib
@@ -42,7 +43,7 @@ class ProMan(object):
     """docstring for ProMan."""
 
     isRunning = {}
-    path = 'data/db'
+    path = 'data/db.json'
     currentMode = ''
     data = {
         'date': None,  # 日期
@@ -66,10 +67,10 @@ class ProMan(object):
         super(ProMan, self).__init__()
         self.debug = debug
         self.isRunning['ProMan'] = True
-        if not os.path.exists('data/'):
-            os.mkdir('data')
-        elif os.path.exists('data/db'):
+        if os.path.exists(self.path):
             self.load()
+        elif not os.path.exists('data/'):
+            os.mkdir('data')
         self.today = dt.date.today()
         self.startInputStar()
         self.startTimerStar()
@@ -322,17 +323,17 @@ class ProMan(object):
 
     def load(self):
         with open(self.path, 'r') as dbfile:
-            self.data = json.loads(dbfile.read())
-            self.data['date'] = dt.date(*self.data['date'])
+            self.data = cache = json.loads(dbfile.read())
+            self.data['now'] = self.l2dt(cache['now'])
 
     def save(self):
-        with open(self.path, 'w') as dbfile:
-            dbfile.write(json.dumps(self.data))
-            self.data['date'] = (
-                self.data['date'].year,
-                self.data['date'].month,
-                self.data['date'].day
-            )
+        try:
+            with open(self.path, 'w') as dbfile:
+                cache = dict(self.data)
+                cache['now'] = self.dt2l(self.data['now'])
+                dbfile.write(json.dumps(cache))
+        except:
+            print('!')
 
     def dt2l(self, v_dt):  # datetime to list
         v_l = [v_dt.year, v_dt.month, v_dt.day,
