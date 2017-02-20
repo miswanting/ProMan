@@ -341,8 +341,7 @@ class ProMan(object):
         return v_l
 
     def l2dt(self, v_l):  # list to datetime
-        v_dt = dt.datetime(v_l.year, v_l.month, v_l.day,
-                           v_l.hour, v_l.minute, v_l.second)
+        v_dt = dt.datetime(*v_l)
         return v_dt
 
     def set_title(self, title=''):
