@@ -110,10 +110,10 @@ class ProMan(object):
                     metaTime = self.data['cfg']['MetaTime']
                 elif self.data['current']['status'] == 'started':
                     self.data['current']['count_down'] -= 1
-                    print(self.data['current']['count_down'])
+                    self.set_title(self.data['current']['count_down'])
                     if self.data['current']['count_down'] == 0:
-                        print('!')
                         self.data['current']['status'] = 'finish'
+                        self.set_title()
                 elif self.data['current']['status'] == 'finish':
                     self.data['current']['status'] = 'idle'
         self.t_timerStar = threading.Thread(target=timerStar)
@@ -345,10 +345,10 @@ class ProMan(object):
         return v_dt
 
     def set_title(self, title=''):
-        if title = '':
-            os.system('ProMan')
+        if title == '':
+            os.system('title ProMan')
         else:
-            os.system('ProMan | {}'.format(title))
+            os.system('title ProMan - {}'.format(title))
 
 if __name__ == '__main__':
     ProMan()
